@@ -42,6 +42,15 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         cell.configure(data: userList[indexPath.row])
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastItemIdx = userList.count-1
+        if indexPath.row == lastItemIdx {
+            if let reqUrl = reqUrl {
+                getUserSearchList(url: reqUrl)
+            }
+        }
+    }
 
 }
 
