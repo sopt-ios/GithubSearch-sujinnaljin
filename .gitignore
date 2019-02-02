@@ -129,6 +129,5 @@ fastlane/test_output
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 
-APIKey.swift
 
 # End of https://www.gitignore.io/api/swift,xcode,macos,cocoapods
