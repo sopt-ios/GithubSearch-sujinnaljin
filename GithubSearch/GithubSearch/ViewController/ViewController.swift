@@ -22,6 +22,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
+        searchBar.delegate = self
     }
     
     func setUpTableView(){
@@ -42,6 +43,24 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 
+}
+
+extension ViewController : UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(self.searchUser(_:)), object: searchBar)
+        perform(#selector(self.searchUser(_:)), with: searchBar, afterDelay: 0.5)
+    }
+    
+    @objc func searchUser(_ searchBar: UISearchBar) {
+        self.userList = []
+        guard let query = searchBar.text, query.trimmingCharacters(in: .whitespaces) != "" else {
+            return
+        }
+        let params : [String : Any] = ["q":query,
+                                       "page":1,
+                                       "per_page":20]
+        getUserSearchList(url: APIUrl.githubSearchUrl, params: params)
+    }
 }
 
 //통신
