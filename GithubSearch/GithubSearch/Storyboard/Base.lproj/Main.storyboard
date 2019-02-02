@@ -36,7 +36,7 @@
                                 <rect key="frame" x="0.0" y="144" width="375" height="634"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="88" id="bBg-tw-NEb">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GithubUserTVCell" rowHeight="88" id="bBg-tw-NEb" customClass="GithubUserTVCell" customModule="GithubSearch" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bBg-tw-NEb" id="Bo3-c2-mHs">
@@ -71,12 +71,17 @@
                                             <constraints>
                                                 <constraint firstItem="7tg-RP-42T" firstAttribute="top" secondItem="Bo3-c2-mHs" secondAttribute="top" constant="11" id="HWh-DZ-Ev0"/>
                                                 <constraint firstItem="oJA-OF-V90" firstAttribute="centerY" secondItem="7tg-RP-42T" secondAttribute="centerY" id="Nfk-Tm-Qzg"/>
-                                                <constraint firstAttribute="trailing" secondItem="7tg-RP-42T" secondAttribute="trailing" constant="280" id="RMx-Zd-uLq"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oJA-OF-V90" secondAttribute="trailing" constant="8" id="TVV-Ul-EML"/>
+                                                <constraint firstAttribute="bottom" secondItem="7tg-RP-42T" secondAttribute="bottom" constant="10.666666666666671" id="cdG-7b-lra"/>
                                                 <constraint firstItem="oJA-OF-V90" firstAttribute="leading" secondItem="7tg-RP-42T" secondAttribute="trailing" constant="16" id="eWO-G7-R2N"/>
                                                 <constraint firstItem="7tg-RP-42T" firstAttribute="leading" secondItem="Bo3-c2-mHs" secondAttribute="leading" constant="28" id="krJ-ao-TjI"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLbl" destination="VJA-V9-fZg" id="0Ab-Tj-Fwm"/>
+                                            <outlet property="profileImgView" destination="7tg-RP-42T" id="qu7-Rx-qNH"/>
+                                            <outlet property="repoCntLbl" destination="uRp-3N-szp" id="2y5-S3-Md2"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -96,6 +101,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="paG-hr-fUU"/>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="UXp-TA-Mlv" id="dYj-wE-bYk"/>
+                        <outlet property="tableView" destination="xo4-9N-9Ug" id="0ZA-q0-59c"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gdh-Ua-Ush" sceneMemberID="firstResponder"/>
             </objects>
