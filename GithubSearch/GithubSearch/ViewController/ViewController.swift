@@ -13,11 +13,8 @@ class ViewController: UIViewController{
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     var reqUrl : String?
-    var userList : [SingleUserVO] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var userList : [SingleUserVO] = []
+    let searchUserDetailGroup = DispatchGroup()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +44,11 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         let lastItemIdx = userList.count-1
         if indexPath.row == lastItemIdx {
             if let reqUrl = reqUrl {
-                getUserSearchList(url: reqUrl)
+                searchGithubUser(url: reqUrl)
             }
         }
     }
-
+    
 }
 
 extension ViewController : UISearchBarDelegate {
@@ -68,13 +65,39 @@ extension ViewController : UISearchBarDelegate {
         let params : [String : Any] = ["q":query,
                                        "page":1,
                                        "per_page":20]
-        getUserSearchList(url: APIUrl.githubSearchUrl, params: params)
+        searchGithubUser(url: APIUrl.githubSearchUrl, params: params)
+    }
+    
+    func searchGithubUser(url : String, params : [String : Any]? = nil){
+        getUserSearchList(url: url, params: params) { [weak self] (userSearchList) in
+            guard let `self` = self else { return }
+            userSearchList.forEach({ (user) in
+                self.searchUserDetailGroup.enter()
+                self.getUserRepoCnt(url: APIUrl.githubUsersUrl+"/"+user.login){ result in
+                    switch result {
+                    case .success(let repoCnt) :
+                        var tempUser = user
+                        tempUser.pulicRepoCnt = repoCnt
+                        self.userList.append(tempUser)
+                        self.searchUserDetailGroup.leave()
+                    case .fail(let errMsg) :
+                        self.simpleAlert(title: "오류", message: errMsg)
+                        self.searchUserDetailGroup.leave()
+                        return
+                    }
+                }
+            })
+            
+            self.searchUserDetailGroup.notify(queue: .main) {
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
 //통신
 extension ViewController {
-    func getUserSearchList(url : String, params : [String : Any]? = nil){
+    func getUserSearchList(url : String, params : [String : Any]? = nil, completion: @escaping ([SingleUserVO]) -> Void){
         GithubSearchService.shareInstance.getUserList(url: url, params: params, completion: { [weak self] (result) in
             guard let `self` = self else { return }
             switch result {
@@ -85,7 +108,7 @@ extension ViewController {
                 } else {
                     self.reqUrl = nil
                 }
-                self.userList.append(contentsOf: userListResData.userList.items)
+                completion(userListResData.userList.items)
             case .networkFail :
                 self.simpleAlert(title: "오류", message: "네트워크 상태를 확인해주세요")
             case .networkError(_, let msg):
@@ -93,5 +116,24 @@ extension ViewController {
             }
         })
     }
+    
+    
+    func getUserRepoCnt(url : String, completion: @escaping (UserSearchResult) -> Void){
+        GetUserDetailService.shareInstance.getUserDetail(url: url,completion: { (result) in
+            switch result {
+            case .networkSuccess(let userDetail):
+                let userDetail = userDetail as! UserDetailVO
+                completion(.success(repoCnt: userDetail.publicRepos))
+            case .networkFail :
+                completion(.fail(errMsg : "네트워크 상태를 확인해주세요"))
+            case .networkError(_, let msg):
+                completion(.fail(errMsg : msg))
+            }
+        })
+    }
+    
+    enum UserSearchResult {
+        case success(repoCnt : Int)
+        case fail(errMsg : String)
+    }
 }
-

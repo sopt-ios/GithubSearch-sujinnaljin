@@ -21,6 +21,7 @@ struct UserSearchListVO: Codable {
 struct SingleUserVO: Codable {
     let login: String
     let avatarURL: String
+    var pulicRepoCnt : Int = 0
    
     enum CodingKeys: String, CodingKey {
         case login
@@ -29,7 +30,7 @@ struct SingleUserVO: Codable {
 }
 
 struct UserDetailVO: Codable {
-    let publicRepos : String
+    let publicRepos : Int
     
     enum CodingKeys: String, CodingKey {
         case publicRepos = "public_repos"

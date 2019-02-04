@@ -18,5 +18,6 @@ class GithubUserTVCell: UITableViewCell {
     func configure(data : SingleUserVO){
         nameLbl.text = data.login
         profileImgView.kf.setImage(with: URL(string: data.avatarURL))
+        repoCntLbl.text = "Number of Repos : "+data.pulicRepoCnt.description
     }
 }
