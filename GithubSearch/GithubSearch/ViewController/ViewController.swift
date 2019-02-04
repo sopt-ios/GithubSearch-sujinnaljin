@@ -12,6 +12,8 @@ class ViewController: UIViewController{
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
+    
     var reqUrl : String?
     var userList : [SingleUserVO] = []
     let searchUserDetailGroup = DispatchGroup()
@@ -19,6 +21,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
+        self.indicatorView.isHidden = true
         searchBar.delegate = self
     }
     
@@ -69,6 +72,9 @@ extension ViewController : UISearchBarDelegate {
     }
     
     func searchGithubUser(url : String, params : [String : Any]? = nil){
+        self.indicatorView.isHidden = false
+        indicatorView.startAnimating()
+        
         getUserSearchList(url: url, params: params) { [weak self] (userSearchList) in
             guard let `self` = self else { return }
             userSearchList.forEach({ (user) in
@@ -79,16 +85,16 @@ extension ViewController : UISearchBarDelegate {
                         var tempUser = user
                         tempUser.pulicRepoCnt = repoCnt
                         self.userList.append(tempUser)
-                        self.searchUserDetailGroup.leave()
                     case .fail(let errMsg) :
                         self.simpleAlert(title: "오류", message: errMsg)
-                        self.searchUserDetailGroup.leave()
-                        return
                     }
+                    self.searchUserDetailGroup.leave()
                 }
             })
             
             self.searchUserDetailGroup.notify(queue: .main) {
+                self.indicatorView.stopAnimating()
+                self.indicatorView.isHidden = true
                 self.tableView.reloadData()
             }
         }
