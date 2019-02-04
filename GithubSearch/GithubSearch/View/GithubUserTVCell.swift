@@ -20,4 +20,8 @@ class GithubUserTVCell: UITableViewCell {
         profileImgView.kf.setImage(with: URL(string: data.avatarURL))
         repoCntLbl.text = "Number of Repos : "+data.pulicRepoCnt.description
     }
+    
+    override func awakeFromNib() {
+        profileImgView.makeRounded()
+    }
 }

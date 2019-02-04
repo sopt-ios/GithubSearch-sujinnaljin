@@ -24,4 +24,15 @@ extension UIViewController {
     }
 }
 
+extension UIView {
+    func makeRounded(cornerRadius : CGFloat? = nil){
+        if let cornerRadius_ = cornerRadius {
+            self.layer.cornerRadius = cornerRadius_
+        }  else {
+            self.layer.cornerRadius = self.layer.frame.height/2
+        }
+        self.layer.masksToBounds = true
+    }
+}
+
 
