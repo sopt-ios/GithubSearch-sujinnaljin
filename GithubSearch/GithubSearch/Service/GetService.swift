@@ -10,14 +10,15 @@ import Foundation
 import Alamofire
 
 protocol GetService {
-    associatedtype NetworkData : Codable
-    typealias networkSuccessResult = (resCode : Int, resHeader : [AnyHashable : Any]?, resResult : NetworkData)
-    func get(_ URL:String, params : Parameters?, completion : @escaping (NetworkResult<networkSuccessResult>)->Void)
+   
+    func get<T: Codable>(_ URL:String, params : Parameters?, networkData : T.Type, completion : @escaping (NetworkResult<(resCode : Int, resHeader : [AnyHashable : Any]?, resResult : T)>)->Void)
 }
 
 extension GetService {
     
-    func get(_ URL:String, params : Parameters? = nil, completion : @escaping (NetworkResult<networkSuccessResult>)->Void){
+    func get<T: Codable>(_ URL:String, params : Parameters? = nil, networkData : T.Type, completion : @escaping (NetworkResult<(resCode : Int, resHeader : [AnyHashable : Any]?, resResult : T)>)->Void){
+        
+        typealias networkSuccessResult = (resCode : Int, resHeader : [AnyHashable : Any]?, resResult : T)
         guard let encodedUrl = URL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             print("Invalid URL")
             return
@@ -35,7 +36,7 @@ extension GetService {
                         do {
                             let resCode = res.response?.statusCode ?? 0
                             let header = res.response?.allHeaderFields
-                            let data = try decoder.decode(NetworkData.self, from: value)
+                            let data = try decoder.decode(T.self, from: value)
                             completion(.networkSuccess((resCode, header, data)))
                         } catch{
                             print("Decoding Err")

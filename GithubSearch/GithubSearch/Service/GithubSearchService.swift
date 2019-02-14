@@ -10,11 +10,10 @@ import Foundation
 
 struct GithubSearchService : GetService {
     
-    typealias NetworkData = UserSearchList
     static let shareInstance = GithubSearchService()
     
     func getUserList(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {
-        get(url, params: params) { (result) in
+        get(url, params: params, networkData: UserSearchList.self) { (result) in
             
             func getNextPage(linkHeader : String?) -> String?{
                 guard let linkHeader = linkHeader else {return nil}

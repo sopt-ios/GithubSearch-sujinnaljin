@@ -9,12 +9,10 @@
 import Foundation
 
 struct GetUserDetailService : GetService {
-    
-    typealias NetworkData = UserDetail
     static let shareInstance = GetUserDetailService()
     
     func getUserDetail(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {
-        get(url, params: params) { (result) in
+        get(url, params: params, networkData: UserDetail.self) { (result) in
             switch result {
             case .networkSuccess(let successResult):
                 completion(.networkSuccess((successResult.resResult)))
