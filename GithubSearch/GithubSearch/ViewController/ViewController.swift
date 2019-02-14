@@ -37,7 +37,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: GithubUserTVCell.reuseIdentifier) as! GithubUserTVCell
+        let cell = tableView.cell(for: GithubUserTVCell.self)
         guard userList.count > 0 else {return cell}
         cell.configure(data: userList[indexPath.row])
         return cell
