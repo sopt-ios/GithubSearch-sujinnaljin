@@ -1,5 +1,5 @@
 //
-//  UserSearchVO.swift
+//  UserSearch.swift
 //  GithubSearch
 //
 //  Created by 강수진 on 02/02/2019.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct UserSearchListVO: Codable {
+struct UserSearchList: Codable {
     let incompleteResults: Bool
-    let items: [SingleUserVO]
+    let items: [SingleUser]
     
     enum CodingKeys: String, CodingKey {
         case incompleteResults = "incomplete_results"
@@ -18,7 +18,7 @@ struct UserSearchListVO: Codable {
     }
 }
 
-struct SingleUserVO: Codable {
+struct SingleUser: Codable {
     let login: String
     let avatarURL: String
     var pulicRepoCnt : Int = 0
@@ -29,7 +29,7 @@ struct SingleUserVO: Codable {
     }
 }
 
-struct UserDetailVO: Codable {
+struct UserDetail: Codable {
     let publicRepos : Int
     
     enum CodingKeys: String, CodingKey {

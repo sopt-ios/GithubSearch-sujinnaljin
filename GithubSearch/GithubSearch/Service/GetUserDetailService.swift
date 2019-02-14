@@ -10,7 +10,7 @@ import Foundation
 
 struct GetUserDetailService : GetService {
     
-    typealias NetworkData = UserDetailVO
+    typealias NetworkData = UserDetail
     static let shareInstance = GetUserDetailService()
     
     func getUserDetail(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {

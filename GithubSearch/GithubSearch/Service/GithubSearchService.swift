@@ -10,7 +10,7 @@ import Foundation
 
 struct GithubSearchService : GetService {
     
-    typealias NetworkData = UserSearchListVO
+    typealias NetworkData = UserSearchList
     static let shareInstance = GithubSearchService()
     
     func getUserList(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {

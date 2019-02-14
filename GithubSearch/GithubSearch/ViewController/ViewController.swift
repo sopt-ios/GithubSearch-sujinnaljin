@@ -15,7 +15,7 @@ class ViewController: UIViewController{
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     var reqUrl : String?
-    var userList : [SingleUserVO] = []
+    var userList : [SingleUser] = []
     let searchUserDetailGroup = DispatchGroup()
     
     override func viewDidLoad() {
@@ -103,12 +103,12 @@ extension ViewController : UISearchBarDelegate {
 
 //통신
 extension ViewController {
-    func getUserSearchList(url : String, params : [String : Any]? = nil, completion: @escaping ([SingleUserVO]) -> Void){
+    func getUserSearchList(url : String, params : [String : Any]? = nil, completion: @escaping ([SingleUser]) -> Void){
         GithubSearchService.shareInstance.getUserList(url: url, params: params, completion: { [weak self] (result) in
             guard let `self` = self else { return }
             switch result {
             case .networkSuccess(let userListResData):
-                let userListResData = userListResData as! (nextPageLink : String?, userList : UserSearchListVO)
+                let userListResData = userListResData as! (nextPageLink : String?, userList : UserSearchList)
                 if userListResData.nextPageLink != nil{
                     self.reqUrl  = userListResData.nextPageLink!
                 } else {
@@ -128,7 +128,7 @@ extension ViewController {
         GetUserDetailService.shareInstance.getUserDetail(url: url,completion: { (result) in
             switch result {
             case .networkSuccess(let userDetail):
-                let userDetail = userDetail as! UserDetailVO
+                let userDetail = userDetail as! UserDetail
                 completion(.success(repoCnt: userDetail.publicRepos))
             case .networkFail :
                 completion(.fail(errMsg : "네트워크 상태를 확인해주세요"))

@@ -14,7 +14,7 @@
 		3B4791DB22057B7100AAF8E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B4791D922057B7100AAF8E9 /* LaunchScreen.storyboard */; };
 		3B4791E32205840100AAF8E9 /* GithubUserTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791E22205840100AAF8E9 /* GithubUserTVCell.swift */; };
 		3B4791E5220585AC00AAF8E9 /* GetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791E4220585AC00AAF8E9 /* GetService.swift */; };
-		3B4791E92205865700AAF8E9 /* UserSearchVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791E82205865700AAF8E9 /* UserSearchVO.swift */; };
+		3B4791E92205865700AAF8E9 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791E82205865700AAF8E9 /* UserSearch.swift */; };
 		3B4791EB22058F1B00AAF8E9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791EA22058F1B00AAF8E9 /* Extensions.swift */; };
 		3B4791ED22058FC800AAF8E9 /* GithubSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791EC22058FC800AAF8E9 /* GithubSearchService.swift */; };
 		3B4791EF2205FAA300AAF8E9 /* NetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4791EE2205FAA300AAF8E9 /* NetworkResult.swift */; };
@@ -35,7 +35,7 @@
 		3B4791DC22057B7100AAF8E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B4791E22205840100AAF8E9 /* GithubUserTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserTVCell.swift; sourceTree = "<group>"; };
 		3B4791E4220585AC00AAF8E9 /* GetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetService.swift; sourceTree = "<group>"; };
-		3B4791E82205865700AAF8E9 /* UserSearchVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchVO.swift; sourceTree = "<group>"; };
+		3B4791E82205865700AAF8E9 /* UserSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
 		3B4791EA22058F1B00AAF8E9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3B4791EC22058FC800AAF8E9 /* GithubSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchService.swift; sourceTree = "<group>"; };
 		3B4791EE2205FAA300AAF8E9 /* NetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResult.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		3B4791F62206022200AAF8E9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				3B4791E82205865700AAF8E9 /* UserSearchVO.swift */,
+				3B4791E82205865700AAF8E9 /* UserSearch.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -314,7 +314,7 @@
 				3B4791D322057B7100AAF8E9 /* ViewController.swift in Sources */,
 				3B4791D122057B7100AAF8E9 /* AppDelegate.swift in Sources */,
 				3B4791F52206004200AAF8E9 /* APIKey.swift in Sources */,
-				3B4791E92205865700AAF8E9 /* UserSearchVO.swift in Sources */,
+				3B4791E92205865700AAF8E9 /* UserSearch.swift in Sources */,
 				3B4791ED22058FC800AAF8E9 /* GithubSearchService.swift in Sources */,
 				3B56F3BB22159FA900ADFC75 /* CellTypeCast.swift in Sources */,
 				3B4791EB22058F1B00AAF8E9 /* Extensions.swift in Sources */,
