@@ -29,6 +29,11 @@ class ViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    func stopIndicatorAnimating(){
+        self.indicatorView.stopAnimating()
+        self.indicatorView.isHidden = true
+    }
 }
 
 extension ViewController : UITableViewDelegate, UITableViewDataSource {
@@ -93,8 +98,7 @@ extension ViewController : UISearchBarDelegate {
             })
             
             self.searchUserDetailGroup.notify(queue: .main) {
-                self.indicatorView.stopAnimating()
-                self.indicatorView.isHidden = true
+                self.stopIndicatorAnimating()
                 self.tableView.reloadData()
             }
         }
@@ -107,7 +111,7 @@ extension ViewController {
         GithubSearchService.shareInstance.getUserList(url: url, params: params, completion: { [weak self] (result) in
             guard let `self` = self else { return }
             switch result {
-            case .networkSuccess(let userListResData):
+            case .Success(let userListResData):
                 let userListResData = userListResData as! (nextPageLink : String?, userList : UserSearchList)
                 if userListResData.nextPageLink != nil{
                     self.reqUrl  = userListResData.nextPageLink!
@@ -115,10 +119,14 @@ extension ViewController {
                     self.reqUrl = nil
                 }
                 completion(userListResData.userList.items)
-            case .networkFail :
-                self.simpleAlert(title: "오류", message: "네트워크 상태를 확인해주세요")
-            case .networkError(_, let msg):
-                self.simpleAlert(title: "오류", message: msg)
+            case .Failure(let errorType) :
+                self.stopIndicatorAnimating()
+                switch errorType {
+                case .networkConnectFail:
+                    self.simpleAlert(title: "오류", message: "네트워크 상태를 확인해주세요")
+                case .networkError(_, let msg):
+                    self.simpleAlert(title: "오류", message: msg)
+                }
             }
         })
     }
@@ -127,13 +135,16 @@ extension ViewController {
     func getUserRepoCnt(url : String, completion: @escaping (UserSearchResult) -> Void){
         GetUserDetailService.shareInstance.getUserDetail(url: url,completion: { (result) in
             switch result {
-            case .networkSuccess(let userDetail):
+            case .Success(let userDetail):
                 let userDetail = userDetail as! UserDetail
                 completion(.success(repoCnt: userDetail.publicRepos))
-            case .networkFail :
-                completion(.fail(errMsg : "네트워크 상태를 확인해주세요"))
-            case .networkError(_, let msg):
-                completion(.fail(errMsg : msg))
+            case .Failure(let errorType) :
+                switch errorType {
+                case .networkConnectFail:
+                    completion(.fail(errMsg : "네트워크 상태를 확인해주세요"))
+                case .networkError(_, let msg):
+                    completion(.fail(errMsg : msg))
+                }
             }
         })
     }

@@ -14,12 +14,15 @@ struct GetUserDetailService : GetService {
     func getUserDetail(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {
         get(url, params: params, networkData: UserDetail.self) { (result) in
             switch result {
-            case .networkSuccess(let successResult):
-                completion(.networkSuccess((successResult.resResult)))
-            case .networkError(let errResult):
-                completion(.networkError((errResult.resCode, errResult.msg)))
-            case .networkFail:
-                completion(.networkFail)
+            case .Success(let successResult):
+                completion(.Success((successResult.resResult)))
+            case .Failure(let errorType) :
+                switch errorType {
+                case .networkConnectFail:
+                    completion(.Failure(.networkConnectFail))
+                case .networkError(let resCode, let msg):
+                    completion(.Failure(.networkError((resCode, msg))))
+                }
             }
         }
     }

@@ -34,13 +34,16 @@ struct GithubSearchService : GetService {
             }
             
             switch result {
-            case .networkSuccess(let successResult):
+            case .Success(let successResult):
                 let nextPageLink = getNextPage(linkHeader: successResult.resHeader?["Link"] as? String)
-                completion(.networkSuccess((nextPageLink, successResult.resResult)))
-            case .networkError(let errResult):
-                completion(.networkError((errResult.resCode, errResult.msg)))
-            case .networkFail:
-                completion(.networkFail)
+                completion(.Success((nextPageLink, successResult.resResult)))
+            case .Failure(let errorType) :
+                switch errorType {
+                case .networkConnectFail:
+                    completion(.Failure(.networkConnectFail))
+                case .networkError(let resCode, let msg):
+                    completion(.Failure(.networkError((resCode, msg))))
+                }
             }
         }
     }

@@ -37,17 +37,17 @@ extension GetService {
                             let resCode = res.response?.statusCode ?? 0
                             let header = res.response?.allHeaderFields
                             let data = try decoder.decode(T.self, from: value)
-                            completion(.networkSuccess((resCode, header, data)))
+                            completion(.Success((resCode, header, data)))
                         } catch{
                             print("Decoding Err")
                         }
                     }
                 case .failure(let err) :
                     if let error = err as NSError?, error.code == -1009 {
-                        completion(.networkFail)
+                        completion(.Failure(.networkConnectFail))
                     } else {
                         let resCode = res.response?.statusCode ?? 0
-                        completion(.networkError((resCode, err.localizedDescription)))
+                        completion(.Failure(.networkError((resCode, err.localizedDescription))))
                     }
                 }
         }
