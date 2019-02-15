@@ -86,12 +86,12 @@ extension ViewController : UISearchBarDelegate {
                 self.searchUserDetailGroup.enter()
                 self.getUserRepoCnt(url: APIUrl.githubUsersUrl+"/"+user.login){ result in
                     switch result {
-                    case .success(let repoCnt) :
+                    case .Success(let repoCnt) :
                         var tempUser = user
                         tempUser.pulicRepoCnt = repoCnt
                         self.userList.append(tempUser)
-                    case .fail(let errMsg) :
-                        self.simpleAlert(title: "오류", message: errMsg)
+                    case .Failure(let errorType) :
+                        self.showErrorAlert(errorType: errorType)
                     }
                     self.searchUserDetailGroup.leave()
                 }
@@ -112,7 +112,7 @@ extension ViewController {
             guard let `self` = self else { return }
             switch result {
             case .Success(let userListResData):
-                let userListResData = userListResData as! (nextPageLink : String?, userList : UserSearchList)
+                let userListResData = userListResData
                 if userListResData.nextPageLink != nil{
                     self.reqUrl  = userListResData.nextPageLink!
                 } else {
@@ -121,36 +121,27 @@ extension ViewController {
                 completion(userListResData.userList.items)
             case .Failure(let errorType) :
                 self.stopIndicatorAnimating()
-                switch errorType {
-                case .networkConnectFail:
-                    self.simpleAlert(title: "오류", message: "네트워크 상태를 확인해주세요")
-                case .networkError(_, let msg):
-                    self.simpleAlert(title: "오류", message: msg)
-                }
+                self.showErrorAlert(errorType: errorType)
             }
         })
     }
     
     
-    func getUserRepoCnt(url : String, completion: @escaping (UserSearchResult) -> Void){
+    func getUserRepoCnt(url : String, completion: @escaping (NetworkResult<Int>) -> Void){
         GetUserDetailService.shareInstance.getUserDetail(url: url,completion: { (result) in
             switch result {
             case .Success(let userDetail):
-                let userDetail = userDetail as! UserDetail
-                completion(.success(repoCnt: userDetail.publicRepos))
+                let userDetail = userDetail
+                completion(.Success(userDetail.publicRepos))
             case .Failure(let errorType) :
                 switch errorType {
                 case .networkConnectFail:
-                    completion(.fail(errMsg : "네트워크 상태를 확인해주세요"))
-                case .networkError(_, let msg):
-                    completion(.fail(errMsg : msg))
+                    completion(.Failure(.networkConnectFail))
+                case .networkError(let resCode, let msg):
+                    completion(.Failure(.networkError((resCode, msg))))
                 }
             }
         })
     }
-    
-    enum UserSearchResult {
-        case success(repoCnt : Int)
-        case fail(errMsg : String)
-    }
 }
+

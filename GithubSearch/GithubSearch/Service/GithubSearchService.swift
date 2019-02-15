@@ -12,7 +12,7 @@ struct GithubSearchService : GetService {
     
     static let shareInstance = GithubSearchService()
     
-    func getUserList(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {
+    func getUserList(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<(nextPageLink : String?, userList : UserSearchList)>) -> Void) {
         get(url, params: params, networkData: UserSearchList.self) { (result) in
             
             func getNextPage(linkHeader : String?) -> String?{

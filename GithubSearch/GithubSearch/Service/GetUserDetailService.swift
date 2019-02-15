@@ -11,7 +11,7 @@ import Foundation
 struct GetUserDetailService : GetService {
     static let shareInstance = GetUserDetailService()
     
-    func getUserDetail(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<Any>) -> Void) {
+    func getUserDetail(url : String, params : [String : Any]? = nil, completion : @escaping (NetworkResult<UserDetail>) -> Void) {
         get(url, params: params, networkData: UserDetail.self) { (result) in
             switch result {
             case .Success(let successResult):
