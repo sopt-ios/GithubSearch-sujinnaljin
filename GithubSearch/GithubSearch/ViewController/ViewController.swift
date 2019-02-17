@@ -12,29 +12,34 @@ class ViewController: UIViewController{
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     var networkProvider = NetworkManager.sharedInstance
     var nextUrl : (keyword : String, pageIdx : Int, perPage : Int)?
     var userList : [SingleUser] = []
     let searchUserDetailGroup = DispatchGroup()
-    
+    let indicatorView = UIActivityIndicatorView(style: .gray)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
-        self.indicatorView.isHidden = true
         searchBar.delegate = self
+        indicatorView.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
     }
     
     func setUpTableView(){
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = indicatorView
     }
     
     func stopIndicatorAnimating(){
         self.indicatorView.stopAnimating()
-        self.indicatorView.isHidden = true
+        tableView.tableFooterView?.isHidden = true
+    }
+    
+    func startIndicatorAnimating(){
+        tableView.tableFooterView?.isHidden = false
+        indicatorView.startAnimating()
     }
 }
 
@@ -51,6 +56,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
         let lastItemIdx = userList.count-1
         if indexPath.row == lastItemIdx {
             if let nextUrl = nextUrl {
@@ -75,8 +81,7 @@ extension ViewController : UISearchBarDelegate {
     }
     
     func searchGithubUser(keyword : String, pageIdx : Int, perPage: Int){
-        self.indicatorView.isHidden = false
-        indicatorView.startAnimating()
+        startIndicatorAnimating()
         
         getUserSearchList(keyword: keyword, pageIdx: pageIdx, perPage: perPage) { [weak self] (userSearchList) in
             guard let `self` = self else { return }
