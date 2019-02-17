@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="xKC-Fa-Dxm">
             <objects>
-                <viewController id="P8G-h3-PsQ" customClass="ViewController" customModule="GithubSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="P8G-h3-PsQ" customClass="ViewController" customModule="GithubSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bGg-3O-KVQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
