@@ -15,7 +15,7 @@ class GithubUserTVCell: UITableViewCell {
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var repoCntLbl: UILabel!
     
-    func configure(data : SingleUserVO){
+    func configure(data : SingleUser){
         nameLbl.text = data.login
         profileImgView.kf.setImage(with: URL(string: data.avatarURL))
         repoCntLbl.text = "Number of Repos : "+data.pulicRepoCnt.description

@@ -14,16 +14,6 @@ extension NSObject {
     }
 }
 
-extension UIViewController {
-    func simpleAlert(title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okTitle = "확인"
-        let okAction = UIAlertAction(title: okTitle,style: .default)
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-}
-
 extension UIView {
     func makeRounded(cornerRadius : CGFloat? = nil){
         if let cornerRadius_ = cornerRadius {
