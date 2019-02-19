@@ -58,7 +58,8 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         let lastItemIdx = userList.count-1
-        if indexPath.row == lastItemIdx {
+        
+        if indexPath.row == lastItemIdx && !indicatorView.isAnimating  {
             if let nextUrl = nextUrl {
                 searchGithubUser(keyword: nextUrl.keyword, pageIdx: nextUrl.pageIdx, perPage: nextUrl.perPage)
             }
